@@ -31,4 +31,4 @@ let comments = [
       username: 'anonymous',
       postId: '1'
     },
-    { body: 'Suspendisse potenti. Cras mollis, velit et aliquet lacinia, odio purus pulvinar nisi, sed aliquam leo augue ut ante. Donec sit amet eros sem. Ut at justo
+    { body: 'Suspendisse potenti. Cras mollis, velit et aliquet lacinia, odio purus pulvinar nisi, sed aliquam leo augue ut ante. Donec sit amet eros sem. Ut at justo'}]
