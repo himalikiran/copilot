@@ -1,34 +1,45 @@
-// Create Web Server
-// 1. Import express
-const express = require('express');
-// 2. Create an express object
-const app = express();
-// 3. Define a port
-const port = 3000;
-// 4. Create a web server
-app.listen(port, function() {
-    console.log('Server listening on port ' + port);
+// Create web server
+// Run: node comments.js
+// Test: curl -i http://localhost:3000/comments
+// Test: curl -i http://localhost:3000/comments/1
+// Test: curl -i -X POST -H 'Content-Type: application/json' -d '{"body":"Hello World"}' http://localhost:3000/comments
+
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var port = 3000;
+
+// Setup body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Setup routes
+var router = express.Router();
+
+// Middleware for all requests
+router.use(function(req, res, next) {
+  console.log('Request received');
+  next();
 });
 
-// Create a route for '/' and send 'Hello World' to the client
-app.get('/', function(req, res) {
-    res.send('Hello World');
+// GET /comments
+router.get('/comments', function(req, res) {
+  res.json({ message: 'GET /comments' });
 });
 
-// Create a route for '/comments' and send an array of comments to the client
-app.get('/comments', function(req, res) {
-    res.send(comments);
+// GET /comments/:id
+router.get('/comments/:id', function(req, res) {
+  res.json({ message: 'GET /comments/:id' });
 });
 
-// Create a route for '/comments/:id' and send a single comment object to the client
-app.get('/comments/:id', function(req, res) {
-    res.send(comments[req.params.id]);
+// POST /comments
+router.post('/comments', function(req, res) {
+  res.json({ message: 'POST /comments' });
 });
 
-// Create an array of comment objects
-let comments = [
-    { body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac tellus vitae dolor lobortis ultricies. Nullam quis rutrum tellus, id egestas ipsum. Nulla facilisi. Quisque eget enim vitae urna tincidunt luctus. Nulla facilisi. Sed sit amet felis ut nisl vulputate tempus. Sed sed scelerisque dolor. Aenean nec faucibus quam, non tempus urna. Sed eget eros auctor, pellentesque nunc vel, facilisis velit. Sed at turpis quis orci pulvinar feugiat. Suspendisse potenti. Phasellus sed justo auctor, venenatis massa vel, ullamcorper risus. Nunc tempus nunc vitae fermentum porta. Morbi euismod, sem ac mattis ultricies, nunc nisl vulputate tellus, vitae egestas nunc nibh vitae nisl. Ut ac dolor euismod, pharetra enim quis, porta enim. Quisque sed mauris ut lacus ultricies pellentesque.',
-      username: 'anonymous',
-      postId: '1'
-    },
-    { body: 'Suspendisse potenti. Cras mollis, velit et aliquet lacinia, odio purus pulvinar nisi, sed aliquam leo augue ut ante. Donec sit amet eros sem. Ut at justo'}]
+// Register routes
+app.use('/', router);
+
+// Start server
+app.listen(port);
+console.log('Server listening on port ' + port);
